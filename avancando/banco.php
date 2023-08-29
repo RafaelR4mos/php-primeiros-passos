@@ -1,30 +1,7 @@
 <?php
-
-function exibeMensagem(string $mensagem): void
-{
-  echo $mensagem . PHP_EOL;
-}
-function sacar(array $conta, float $valorASacar): array //É possível tipar os parâmetros e retornos de uma função
-{
-  if ($valorASacar > $conta['saldo']) {
-    exibeMensagem("Você não pode sacar!");
-  } else {
-    $conta['saldo'] -= $valorASacar;
-  }
-
-  return $conta;
-}
-
-function depositar(array $conta, float $valorADepositar): array
-{
-  if ($valorADepositar > 0) {
-    $conta['saldo'] += $valorADepositar;
-  } else {
-    exibeMensagem("Só aceita números positivos em depósitos");
-  }
-
-  return $conta;
-}
+// include './funcoes.php'; usado mais para códigos que não são required
+// require './funcoes.php'; pode ser declarado mais de uma vez e vai copiar o codigo do src.
+require_once './funcoes.php'; // pode requirir o codigo do caminho apenas 1 vez.
 
 $contasCorrentes = [
   '123.456.789-10' => [
@@ -44,6 +21,43 @@ $contasCorrentes = [
 $contasCorrentes['123.456.789-12'] = sacar($contasCorrentes['123.456.789-12'], 500);
 $contasCorrentes['123.456.789-11'] = depositar($contasCorrentes['123.456.789-11'], 200);
 
-foreach ($contasCorrentes as $cpf => $conta) {
-  exibeMensagem($cpf . " " . $conta['titular'] . " " . $conta['saldo']);
-}
+titularComLetrasMaiusculas($contasCorrentes['123.456.789-10']);
+//unset($contasCorrentes['123.456.789-12']); remove um item do array
+
+// Usando o list ou desestruturação
+// foreach ($contasCorrentes as $cpf => $conta) {
+//list('titular' => $titular, 'saldo' => $saldo) = $conta;
+//   ['titular' => $titular, 'saldo' => $saldo] = $conta;
+//   exibeMensagem("$cpf $titular $saldo");
+// }
+
+// foreach ($contasCorrentes as $cpf => $conta) {
+//   exibeMensagem(
+//     "$cpf {$conta['titular']} {$conta['saldo']}"
+//   );
+// }
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHP com HTML - Básico</title>
+</head>
+
+<body>
+  <h1>Contas correntes</h1>
+
+  <dl>
+    <?php foreach ($contasCorrentes as $cpf => $conta) { ?>
+      <dt>
+        <h3><?= $conta['titular']; ?> - <?= $cpf; ?></h3>
+      </dt>
+      <dd>Saldo: <?= $conta['saldo']; ?></dd>
+    <?php } ?>
+  </dl>
+</body>
+
+</html>
