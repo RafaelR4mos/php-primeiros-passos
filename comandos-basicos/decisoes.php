@@ -1,5 +1,4 @@
 <?php
-
 $message = 'Você só pode entrar se tiver apartir de 18 anos.' . PHP_EOL;
 $age = 16;
 
